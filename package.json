@@ -1,0 +1,25 @@
+{
+  "name": "modern_database",
+  "version": "1.0.0",
+  "description": "Class Project",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Didiyang99/Modern_Database.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Didiyang99/Modern_Database/issues"
+  },
+  "homepage": "https://github.com/Didiyang99/Modern_Database#readme",
+  "dependencies": {
+    "apoc": "^2.1.6",
+    "mongodb": "^3.6.3",
+    "mongoose": "^5.11.7",
+    "nodemon": "^2.0.6"
+  }
+}
