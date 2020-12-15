@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ModernDB Final Project</title>
+    <style>
+        h1 {
+    border: 2px #eee solid;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+form{
+    margin-top: 5%;
+    text-align: center;
+}
+body{
+    background-color: gray;
+}
+input{
+    padding : 10px 24px;
+}
+button{
+    padding:10px 15px;
+}
+    </style>
+</head>
+<body>
+   <h1>Book Search and Recommendation System</h1>
+</body>
+
+<form class="example" action="http://localhost:5000/search" method="GET">
+    <input type="text" placeholder="Search..." name="query">
+    <button type="submit">Search Books<i class="fa fa-search"></i></button>
+  </form>
+
+<!-- {% if resultSet %}
+    <p>
+        <ul>
+            <li>Author : {{ resultSet['authors'] }}</li>
+        </ul>
+    </p>
+{% else %}
+{% endif %} -->
+
+</html>

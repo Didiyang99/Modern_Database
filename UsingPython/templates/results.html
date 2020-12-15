@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="style.css">
+    <title>ModernDB Final Project</title>
+    <style>
+        h1 {
+    border: 2px #eee solid;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+form{
+    margin-top: 5%;
+    text-align: center;
+}
+body{
+    background-color: gray;
+    color: white;
+    
+}
+.divver{
+    margin-top: 3%;
+    margin-left: 2%;
+}
+img{
+    margin-right: 55%;
+    float:right;
+    height: auto;
+    width: auto;
+}
+input{
+    padding : 10px 24px;
+    background-color: black;
+    color: white;
+}
+    </style>
+</head>
+<body>
+   <h1>Results</h1>
+<div class="divver">
+    <p><h2>{{ resultSet.Title }}</h2>
+        <ul>
+            <img src="{{resultSet.Image}}" alt="">
+
+            <li><h3>Author(s): {{ resultSet.Author }}</h3></li>
+
+            <li><h3>Year Published: {{ resultSet.Published  }}</h3></li>
+            <li><h3>Number of Ratings: {{ resultSet.Ratings_Count }}</h3></li>
+            <li><h3>Average Ratings: {{ resultSet.Avg_Rating }}</h3></li>
+            <li><h3>International Standard Book Number (ISBN): {{ resultSet.Ratings_Count }}</h3></li>
+            
+        </ul>
+    </p>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<form action="http://localhost:5000/">
+    <input type="submit" value="HOME">
+</form>
+
+</body>
+
+
+</html>
