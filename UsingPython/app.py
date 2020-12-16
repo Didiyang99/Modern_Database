@@ -9,7 +9,7 @@ db = client['finalProjectDb']
 books = db.Books  
 
 #Neo4j Client
-driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "moderndb"))
+driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "Elhadi123"))
 
 app = Flask(__name__)
 
@@ -18,7 +18,6 @@ app = Flask(__name__)
 #home page route
 @app.route("/")
 def index():
-    # getBookSuggesstions()
     return render_template('index.html')
 
 
@@ -41,8 +40,17 @@ def search():
 
 #Recommendation
 @app.route("/recommend",methods=['GET'])
-def recommend(bookIDs):
-    return render_template('recommendation.html')
+def recommend():
+    bookIDs = getBookSuggesstions()
+    # result = books.find_one({'book_id':book},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
+    #                         'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
+    records = []
+    for book in bookIDs:
+        result = books.find_one({'book_id':book},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
+                            'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
+        if result:
+            records.append(result)
+    return render_template('recommendation.html',records=records)
 
     
 
