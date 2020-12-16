@@ -9,7 +9,7 @@ db = client['finalProjectDb']
 books = db.Books  
 
 #Neo4j Client
-driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "Elhadi123"))
+driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "moderndb"))
 
 app = Flask(__name__)
 
@@ -67,19 +67,23 @@ def makeList(self, results,attribute='Neighbor'):
 #     session.close()
 #     return 
 
-
 def getBookSuggesstions():
+    results_as_list_neighbor = []
+    results_as_list_Sim =[]
     session = driver.session()
     query = "MATCH (b1:Book{bookId:965})-[s:SIMILARITY]-(b2:Book) "\
             "WITH b2, s.similarity AS sim "\
             "ORDER BY sim DESC "\
-            "LIMIT 30 "\
+            "LIMIT 5 "\
             "RETURN b2.bookId AS Neighbor, sim AS Similarity"
     result = session.run(query)
-    #response = makeList(result, "Neighbor") 
     for record in list(result):
+        results_as_list_neighbor.append(record['Neighbor'])
+        results_as_list_Sim.append(record['Similarity'])
         print(str(record['Neighbor'])+"      "+ str(record['Similarity']))
-    print("hellp2") 
+    print(results_as_list_neighbor)
+    print(results_as_list_Sim) 
+
 
 if __name__ == "__main__":
     app.run(debug=True)
