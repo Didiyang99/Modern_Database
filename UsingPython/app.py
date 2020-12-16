@@ -2,9 +2,10 @@ from flask import Flask, render_template, request, redirect, url_for
 from pymongo import MongoClient
 from neo4j import GraphDatabase
 
+
 #Mongo Client
 client = MongoClient('localhost',27017)
-db = client['finalProjectDb']
+db = client['finalProjectDB']
 books = db.Books  
 
 #Neo4j Client
@@ -17,6 +18,7 @@ app = Flask(__name__)
 #home page route
 @app.route("/")
 def index():
+    getBookSuggesstions()
     return render_template('index.html')
 
 
@@ -45,38 +47,39 @@ def recommend():
     
 
 # Make a list of Neo4j results
-def makeList(self, results):
+def makeList(self, results,attribute='Neighbor'):
     results_as_list = []
     if results.peek():            
         listResult = list(results)
         for record in listResult:
-            results_as_list.append(record)
+            results_as_list.append(record[attribute])
     return results_as_list  
 
-#Use cosine similarity to create a book recommendation algorithms between two books based on rating from the same user
-def createBookSuggesstions():
-    session = driver.session()
-    query = "MATCH (b1:Book)<-[x:RATED]-(u:User)-[y:RATED]->(b2:Book) WITH SUM(x.rating * y.rating) AS xyDotproduct, " \
-        "SQRT(REDUCE(xDot = 0.0, a IN COLLECT(x.rating) | xDot + a^2)) AS xLength, "\
-        "SQRT(REDUCE(yDot = 0.0, b IN COLLECT(y.rating) | yDot + b^2)) AS yLength, "\
-        "b1, b2"\
-        "MERGE (b1)-[s:SIMILARITY]-(b2) "\
-        "SET s.similarity = xyDotproduct / (xLength * yLength) "
-    session.close()
-    return 
-
-
-# def getBookSuggesstions():
+# #Use cosine similarity to create a book recommendation algorithms between two books based on rating from the same user
+# def createBookSuggesstions():
 #     session = driver.session()
-#     query = "MATCH (b1:Book{bookId:900})-[s:SIMILARITY]-(b2:Book) "\
-#              "WITH b2, s.similarity AS sim "\ 
-#              "ORDER BY sim DESC" \ 
-#               "LIMIT 30" \
-#                "RETURN b2.bookId AS Neighbor, sim AS Similarity"
-#     result = session.run(query,ID=?)
-#     response = makeList(result) 
+#     query = "MATCH (b1:Book)<-[x:RATED]-(u:User)-[y:RATED]->(b2:Book) WITH SUM(x.rating * y.rating) AS xyDotproduct, " \
+#         "SQRT(REDUCE(xDot = 0.0, a IN COLLECT(x.rating) | xDot + a^2)) AS xLength, "\
+#         "SQRT(REDUCE(yDot = 0.0, b IN COLLECT(y.rating) | yDot + b^2)) AS yLength, "\
+#         "b1, b2"\
+#         "MERGE (b1)-[s:SIMILARITY]-(b2) "\
+#         "SET s.similarity = xyDotproduct / (xLength * yLength) "
 #     session.close()
-#     return response 
+#     return 
+
+
+def getBookSuggesstions():
+    session = driver.session()
+    query = "MATCH (b1:Book{bookId:965})-[s:SIMILARITY]-(b2:Book) "\
+            "WITH b2, s.similarity AS sim "\
+            "ORDER BY sim DESC "\
+            "LIMIT 30 "\
+            "RETURN b2.bookId AS Neighbor, sim AS Similarity"
+    result = session.run(query)
+    #response = makeList(result, "Neighbor") 
+    for record in list(result):
+        print(str(record['Neighbor'])+"      "+ str(record['Similarity']))
+    print("hellp2") 
 
 if __name__ == "__main__":
     app.run(debug=True)
