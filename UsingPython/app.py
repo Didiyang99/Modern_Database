@@ -19,24 +19,19 @@ def index():
 @app.route("/search",methods=['GET'])
 def search():
     query = request.args.get('query')
-    result = books.find_one({'original_title':query}) 
-    if result:
-        resultSet = {'Title':result['original_title'], 'Author':result['authors'], 'Ratings_Count':result['ratings_count'], 'Published':int(result['original_publication_year']), 'Image':result['small_image_url'],
-                     'Avg_Rating':result['average_rating'], 'ISBN':result['isbn']}
-        print(resultSet)
-        return render_template("results.html",resultSet=resultSet)
+    records = []
+    for result in books.find({"$text": {"$search" : query}},{'original_title':1,'authors':1,'original_publication_year':1,
+                            'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0}):
+        records.append(result)
+
+    if records:
+        return render_template("results.html",records=records)
+
+    else:
+        return render_template('index.html',invalid="Book Does Not Exist")
     # return redirect(url_for('results',query=query))
     
 
 
-
-
-
-
-
-
-
-
-
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)

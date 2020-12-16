@@ -32,35 +32,38 @@ img{
 }
 input{
     padding : 10px 24px;
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
 }
+
     </style>
 </head>
 <body>
    <h1>Results</h1>
+   <form action="http://localhost:5000/">
+    <input id="button" type="submit" value="SEARCH BOOKS">
+    </form>
 <div class="divver">
-    <p><h2>{{ resultSet.Title }}</h2>
+ 
+    {% for record in records %}
+    <p><h2>{{ record.original_title }}</h2>
         <ul>
-            <img src="{{resultSet.Image}}" alt="">
+            <img src="{{record.small_image_url}}" alt="">
 
-            <li><h3>Author(s): {{ resultSet.Author }}</h3></li>
-
-            <li><h3>Year Published: {{ resultSet.Published  }}</h3></li>
-            <li><h3>Number of Ratings: {{ resultSet.Ratings_Count }}</h3></li>
-            <li><h3>Average Ratings: {{ resultSet.Avg_Rating }}</h3></li>
-            <li><h3>International Standard Book Number (ISBN): {{ resultSet.Ratings_Count }}</h3></li>
+            <li><h3>Author(s): {{ record.authors }}</h3></li>
+            <li><h3>Year Published: {{ record.original_publication_year  }}</h3></li>
+            <li><h3>Number of Ratings: {{ record.ratings_count }}</h3></li>
+            <li><h3>Average Rating: {{ record.average_rating }}</h3></li>
+            <li><h3>International Standard Book Number (ISBN): {{ record.isbn }}</h3></li>
             
         </ul>
     </p>
+    <hr>
+    {% endfor %}
 </div>
-<br>
-<br>
-<br>
-<br>
-<br>
+
 <form action="http://localhost:5000/">
-    <input type="submit" value="HOME">
+    <input type="submit" value="SEARCH BOOKS">
 </form>
 
 </body>
