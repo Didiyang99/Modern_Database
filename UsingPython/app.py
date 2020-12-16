@@ -5,11 +5,11 @@ from neo4j import GraphDatabase
 
 #Mongo Client
 client = MongoClient('localhost',27017)
-db = client['finalProjectDb']
+db = client['finalProjectDB']
 books = db.Books  
 
 #Neo4j Client
-driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "Elhadi123"))
+driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "moderndb"))
 
 app = Flask(__name__)
 
@@ -69,12 +69,12 @@ def getBookSuggesstions(firstbook):
     results_as_list_neighbor = []
     results_as_list_Sim =[]
     session = driver.session()
-    query = "MATCH (b1:Book{bookId:$firstbook})-[s:SIMILARITY]-(b2:Book) "\
+    print('firstbook', firstbook)
+    result = session.run("MATCH (b1:Book{bookId:$firstbook})-[s:SIMILARITY]-(b2:Book) "\
             "WITH b2, s.similarity AS sim "\
             "ORDER BY sim DESC "\
             "LIMIT 5 "\
-            "RETURN b2.bookId AS Neighbor, sim AS Similarity"
-    result = session.run(query)
+            "RETURN b2.bookId AS Neighbor, sim AS Similarity",firstbook=firstbook)
     for record in list(result):
         results_as_list_neighbor.append(record['Neighbor'])
         results_as_list_Sim.append(record['Similarity'])
