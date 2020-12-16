@@ -20,7 +20,7 @@ def index():
 def search():
     query = request.args.get('query')
     records = []
-    resultOne = books.find_one({"$text": {"$search" : '\"query\"'}},{'original_title':1,'authors':1,'original_publication_year':1,
+    resultOne = books.find_one({"$text": {"$search" : '\"query\"'}},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
                             'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
     for result in books.find({"$text": {"$search" : query}},{'original_title':1,'authors':1,'original_publication_year':1,
                             'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0}):
@@ -55,17 +55,17 @@ def createBookSuggesstions():
     return 
 
 
-def getBookSuggesstions():
-    session = driver.session()
-    query = "MATCH (b1:Book {bookId : $ID})-[s:SIMILARITY]-(b2:Book) "\
-            "WITH b2, s.similarity AS sim " \
-            "ORDER BY sim DESC "\
-            "LIMIT 5 "\
-            "RETURN b2.name AS Neighbor, sim AS Similarity"
-    result = session.run(query,ID=?)
-    response = makeList(result) 
-    session.close()
-    return response 
+# def getBookSuggesstions():
+#     session = driver.session()
+#     query = "MATCH (b1:Book {bookId : $ID})-[s:SIMILARITY]-(b2:Book) "\
+#             "WITH b2, s.similarity AS sim " \
+#             "ORDER BY sim DESC "\
+#             "LIMIT 5 "\
+#             "RETURN b2.name AS Neighbor, sim AS Similarity"
+#     result = session.run(query,ID=?)
+#     response = makeList(result) 
+#     session.close()
+#     return response 
 
 if __name__ == "__main__":
     app.run(debug=True)
