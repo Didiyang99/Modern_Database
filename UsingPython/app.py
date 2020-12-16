@@ -5,7 +5,7 @@ from neo4j import GraphDatabase
 
 #Mongo Client
 client = MongoClient('localhost',27017)
-db = client['finalProjectDB']
+db = client['finalProjectDb']
 books = db.Books  
 
 #Neo4j Client
@@ -18,7 +18,7 @@ app = Flask(__name__)
 #home page route
 @app.route("/")
 def index():
-    getBookSuggesstions()
+    # getBookSuggesstions()
     return render_template('index.html')
 
 

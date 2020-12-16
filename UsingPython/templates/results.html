@@ -39,12 +39,16 @@ input{
 #recom{
     display: inline-block;
 }
+.buttns{
+    margin-left: 35%;
+}
 
     </style>
 </head>
 <body>
    <h1>Results For ... {{query}}</h1>
-   <form action="http://localhost:5000/">
+
+   <form class="buttns" action="http://localhost:5000/">
     <input id="button" type="submit" value="SEARCH BOOKS">
     </form>
     <input id="recom" type="button" onclick="window.location.href='http://localhost:5000/recommend';" value="YOU MAY ALSO LIKE...">
@@ -67,7 +71,7 @@ input{
     {% endfor %}
 </div>
 
-<form action="http://localhost:5000/">
+<form class="buttns" action="http://localhost:5000/">
     <input type="submit" value="SEARCH BOOKS">
 </form>
     <input id="recom" type="button" onclick="window.location.href='http://localhost:5000/recommend';" value="YOU MAY ALSO LIKE...">
