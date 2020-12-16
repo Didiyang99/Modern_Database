@@ -41,7 +41,7 @@ def search():
 
 #Recommendation
 @app.route("/recommend",methods=['GET'])
-def recommend():
+def recommend(bookIDs):
     return render_template('recommendation.html')
 
     
