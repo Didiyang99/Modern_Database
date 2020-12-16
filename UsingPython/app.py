@@ -42,16 +42,16 @@ def search():
 @app.route("/recommend/<int:firstBook>",methods=['GET'])
 def recommend(firstBook):
     bookIDs = getBookSuggesstions(firstBook)
-    # result = books.find_one({'book_id':900},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
-    #                          'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
-    # return render_template('recommendation.html',records=result)
-    records = []
-    for book in bookIDs:
-        result = books.find_one({'book_id':book},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
-                            'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
-        if result:
-            records.append(result)
-    return render_template('recommendation.html',records=records)
+    result = books.find_one({'book_id':900},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
+                             'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
+    return render_template('recommendation.html',records=result)
+    # records = []
+    # for book in bookIDs:
+    #     result = books.find_one({'book_id':book},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
+    #                         'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
+    #     if result:
+    #         records.append(result)
+    # return render_template('recommendation.html',records=records)
 
     
 
