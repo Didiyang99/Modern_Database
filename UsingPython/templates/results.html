@@ -39,12 +39,11 @@ input{
     </style>
 </head>
 <body>
-   <h1>Results</h1>
+   <h1>Results For ... {{query}}</h1>
    <form action="http://localhost:5000/">
     <input id="button" type="submit" value="SEARCH BOOKS">
     </form>
 <div class="divver">
- 
     {% for record in records %}
     <p><h2>{{ record.original_title }}</h2>
         <ul>
@@ -56,7 +55,6 @@ input{
             <li><h3>Number of Ratings: {{ record.ratings_count }}</h3></li>
             <li><h3>Average Rating: {{ record.average_rating }}</h3></li>
             <li><h3>International Standard Book Number (ISBN): {{ record.isbn }}</h3></li>
-            
         </ul>
     </p>
     <hr>

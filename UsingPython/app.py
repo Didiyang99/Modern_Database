@@ -1,16 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for
 from pymongo import MongoClient
-from neo4j import GraphDatabase
 
 #Mongo Client
 client = MongoClient('localhost',27017)
-db = client['finalProjectDB']
+db = client['finalProjectDb']
 books = db.Books  
 
 app = Flask(__name__)
 
-#neo4jDriver Client
-driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "moderndb"))
+
 
 #home page route
 @app.route("/")
@@ -22,15 +20,18 @@ def index():
 def search():
     query = request.args.get('query')
     records = []
-    for result in books.find({"$text": {"$search" : query}},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
+    resultOne = books.find_one({"$text": {"$search" : '\"query\"'}},{'original_title':1,'authors':1,'original_publication_year':1,
+                            'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
+    for result in books.find({"$text": {"$search" : query}},{'original_title':1,'authors':1,'original_publication_year':1,
                             'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0}):
         records.append(result)
 
     if records:
-        return render_template("results.html",records=records)
+        return render_template("results.html",records=records, query=query)
 
     else:
         return render_template('index.html',invalid="Book Does Not Exist")
+    
 
 # Make a list of Neo4j results
 def makeList(self, results):
