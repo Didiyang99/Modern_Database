@@ -54,17 +54,17 @@ def createBookSuggesstions():
     return 
 
 
-# def getBookSuggesstions():
-#     session = driver.session()
-#     query = "MATCH (b1:Book {bookId : $ID})-[s:SIMILARITY]-(b2:Book) "\
-#             "WITH b2, s.similarity AS sim " \
-#             "ORDER BY sim DESC "\
-#             "LIMIT 5 "\
-#             "RETURN b2.name AS Neighbor, sim AS Similarity"
-#     result = session.run(query,ID=?)
-#     response = makeList(result) 
-#     session.close()
-#     return response 
+def getBookSuggesstions():
+    session = driver.session()
+    query = "MATCH (b1:Book {bookId : $ID})-[s:SIMILARITY]-(b2:Book) "\
+            "WITH b2, s.similarity AS sim " \
+            "ORDER BY sim DESC "\
+            "LIMIT 5 "\
+            "RETURN b2.name AS Neighbor, sim AS Similarity"
+    result = session.run(query,ID=?)
+    response = makeList(result) 
+    session.close()
+    return response 
 
 if __name__ == "__main__":
     app.run(debug=True)
