@@ -32,8 +32,8 @@ img{
 }
 input{
     padding : 10px 24px;
-    background-color: black;
-    color: white;
+    background-color: white;
+    color: black;
 }
     </style>
 </head>
@@ -48,7 +48,7 @@ input{
 
             <li><h3>Year Published: {{ resultSet.Published  }}</h3></li>
             <li><h3>Number of Ratings: {{ resultSet.Ratings_Count }}</h3></li>
-            <li><h3>Average Ratings: {{ resultSet.Avg_Rating }}</h3></li>
+            <li><h3>Average Rating: {{ resultSet.Avg_Rating }}</h3></li>
             <li><h3>International Standard Book Number (ISBN): {{ resultSet.Ratings_Count }}</h3></li>
             
         </ul>
@@ -60,7 +60,7 @@ input{
 <br>
 <br>
 <form action="http://localhost:5000/">
-    <input type="submit" value="HOME">
+    <input type="submit" value="SEARCH BOOKS">
 </form>
 
 </body>
