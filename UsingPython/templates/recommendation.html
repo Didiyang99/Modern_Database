@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ModernDB Final Project</title>
+    <style>
+        h1 {
+    border: 2px #eee solid;
+    color: white;
+    text-align: center;
+    padding: 10px;
+}
+form{
+    margin-top: 5%;
+    text-align: center;
+}
+body{
+    background-color: gray;
+}
+input{
+    padding : 10px 24px;
+}
+button{
+    padding:10px 15px;
+}
+h3{
+    color: white;
+    text-align: center;
+    margin-top: 10%;
+    font-size: 2.0em;
+}
+    </style>
+</head>
+<body>
+   <h1>You May Also Like These Books</h1>
+</body>
+
+<div>
+    {% if invalid %}
+        <h3>{{invalid}}</h3>
+    {%endif%}
+
+</div>
+
+</html>
