@@ -29,7 +29,6 @@ def search():
 
     else:
         return render_template('index.html',invalid="Book Does Not Exist")
-    # return redirect(url_for('results',query=query))
     
 
 
