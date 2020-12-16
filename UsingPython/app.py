@@ -49,23 +49,23 @@ def makeList(self, results):
 #Use cosine similarity to create a book recommendation algorithms between two books based on rating from the same user
 def createBookSuggesstions():
     session = driver.session()
-    query = "MATCH (b1:Book)-[x:RATED]<-(u:User)-[y:RATED]->(b2:Book) WITH SUM(x.Rating * y.rating) AS xyDotproduct, " \
+    query = "MATCH (b1:Book)<-[x:RATED]-(u:User)-[y:RATED]->(b2:Book) WITH SUM(x.rating * y.rating) AS xyDotproduct, " \
         "SQRT(REDUCE(xDot = 0.0, a IN COLLECT(x.rating) | xDot + a^2)) AS xLength, "\
         "SQRT(REDUCE(yDot = 0.0, b IN COLLECT(y.rating) | yDot + b^2)) AS yLength, "\
         "b1, b2"\
         "MERGE (b1)-[s:SIMILARITY]-(b2) "\
-        "SET s.similarity = xyDotProduct / (xLength * yLength) "
+        "SET s.similarity = xyDotproduct / (xLength * yLength) "
     session.close()
     return 
 
 
 # def getBookSuggesstions():
 #     session = driver.session()
-#     query = "MATCH (b1:Book {bookId : $ID})-[s:SIMILARITY]-(b2:Book) "\
-#             "WITH b2, s.similarity AS sim " \
-#             "ORDER BY sim DESC "\
-#             "LIMIT 5 "\
-#             "RETURN b2.name AS Neighbor, sim AS Similarity"
+#     query = "MATCH (b1:Book{bookId:900})-[s:SIMILARITY]-(b2:Book) "\
+#              "WITH b2, s.similarity AS sim "\ 
+#              "ORDER BY sim DESC" \ 
+#               "LIMIT 30" \
+#                "RETURN b2.bookId AS Neighbor, sim AS Similarity"
 #     result = session.run(query,ID=?)
 #     response = makeList(result) 
 #     session.close()
