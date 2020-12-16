@@ -21,7 +21,7 @@ def search():
     query = request.args.get('query')
     records = []
     for result in books.find({"$text": {"$search" : query}},{'original_title':1,'authors':1,'original_publication_year':1,
-                            'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0}):
+                            'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0}).limit(3):
         records.append(result)
 
     if records:
