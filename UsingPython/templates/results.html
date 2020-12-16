@@ -14,6 +14,7 @@
 form{
     margin-top: 5%;
     text-align: center;
+    display: inline-block;
 }
 body{
     background-color: gray;
@@ -35,6 +36,9 @@ input{
     background-color: white;
     color: black;
 }
+#recom{
+    display: inline-block;
+}
 
     </style>
 </head>
@@ -43,6 +47,8 @@ input{
    <form action="http://localhost:5000/">
     <input id="button" type="submit" value="SEARCH BOOKS">
     </form>
+    <input id="recom" type="button" onclick="window.location.href='http://localhost:5000/recommend';" value="YOU MAY ALSO LIKE...">
+
 <div class="divver">
     {% for record in records %}
     <p><h2>{{ record.original_title }}</h2>
@@ -64,7 +70,7 @@ input{
 <form action="http://localhost:5000/">
     <input type="submit" value="SEARCH BOOKS">
 </form>
-
+    <input id="recom" type="button" onclick="window.location.href='http://localhost:5000/recommend';" value="YOU MAY ALSO LIKE...">
 </body>
 
 

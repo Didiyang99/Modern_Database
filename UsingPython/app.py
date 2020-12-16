@@ -8,7 +8,7 @@ db = client['finalProjectDb']
 books = db.Books  
 
 #Neo4j Client
-driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "moderndb"))
+driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "Elhadi123"))
 
 app = Flask(__name__)
 
@@ -35,6 +35,13 @@ def search():
 
     else:
         return render_template('index.html',invalid="Book Does Not Exist")
+
+
+#Recommendation
+@app.route("/recommend",methods=['GET'])
+def recommend():
+    return render_template('recommendation.html')
+
     
 
 # Make a list of Neo4j results
