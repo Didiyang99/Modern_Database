@@ -35,6 +35,26 @@ h3{
    <h1>You May Also Like These Books</h1>
 </body>
 
+
+
+<div class="divver">
+    {% for record in records %}
+    <p><h2>{{ record.original_title }}</h2>
+        <ul>
+            <img src="{{record.small_image_url}}" alt="">
+
+            <li><h3>Book ID: {{ record.book_id }}</h3></li>
+            <li><h3>Author(s): {{ record.authors }}</h3></li>
+            <li><h3>Year Published: {{ record.original_publication_year  }}</h3></li>
+            <li><h3>Number of Ratings: {{ record.ratings_count }}</h3></li>
+            <li><h3>Average Rating: {{ record.average_rating }}</h3></li>
+            <li><h3>International Standard Book Number (ISBN): {{ record.isbn }}</h3></li>
+        </ul>
+    </p>
+    <hr>
+    {% endfor %}
+</div>
+
 <div>
     {% if invalid %}
         <h3>{{invalid}}</h3>

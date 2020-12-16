@@ -5,7 +5,7 @@ from neo4j import GraphDatabase
 
 #Mongo Client
 client = MongoClient('localhost',27017)
-db = client['finalProjectDB']
+db = client['finalProjectDb']
 books = db.Books  
 
 #Neo4j Client
@@ -18,7 +18,7 @@ app = Flask(__name__)
 #home page route
 @app.route("/")
 def index():
-    getBookSuggesstions()
+    # getBookSuggesstions()
     return render_template('index.html')
 
 
@@ -55,17 +55,6 @@ def makeList(self, results,attribute='Neighbor'):
             results_as_list.append(record[attribute])
     return results_as_list  
 
-# #Use cosine similarity to create a book recommendation algorithms between two books based on rating from the same user
-# def createBookSuggesstions():
-#     session = driver.session()
-#     query = "MATCH (b1:Book)<-[x:RATED]-(u:User)-[y:RATED]->(b2:Book) WITH SUM(x.rating * y.rating) AS xyDotproduct, " \
-#         "SQRT(REDUCE(xDot = 0.0, a IN COLLECT(x.rating) | xDot + a^2)) AS xLength, "\
-#         "SQRT(REDUCE(yDot = 0.0, b IN COLLECT(y.rating) | yDot + b^2)) AS yLength, "\
-#         "b1, b2"\
-#         "MERGE (b1)-[s:SIMILARITY]-(b2) "\
-#         "SET s.similarity = xyDotproduct / (xLength * yLength) "
-#     session.close()
-#     return 
 
 def getBookSuggesstions():
     results_as_list_neighbor = []
