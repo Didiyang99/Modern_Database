@@ -1,10 +1,14 @@
 from flask import Flask, render_template, request, redirect, url_for
 from pymongo import MongoClient
+from neo4j import GraphDatabase
 
 #Mongo Client
 client = MongoClient('localhost',27017)
 db = client['finalProjectDb']
 books = db.Books  
+
+#Neo4j Client
+driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "moderndb"))
 
 app = Flask(__name__)
 
