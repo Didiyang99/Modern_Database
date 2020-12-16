@@ -9,7 +9,7 @@ db = client['finalProjectDb']
 books = db.Books  
 
 #Neo4j Client
-driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "moderndb"))
+driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "Elhadi123"))
 
 app = Flask(__name__)
 
@@ -18,7 +18,6 @@ app = Flask(__name__)
 #home page route
 @app.route("/")
 def index():
-    # getBookSuggesstions()
     return render_template('index.html')
 
 
@@ -40,9 +39,19 @@ def search():
 
 
 #Recommendation
-@app.route("/recommend",methods=['GET'])
-def recommend():
-    return render_template('recommendation.html')
+@app.route("/recommend/<int:firstBook>",methods=['GET'])
+def recommend(firstBook):
+    bookIDs = getBookSuggesstions(firstBook)
+    # result = books.find_one({'book_id':900},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
+    #                          'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
+    # return render_template('recommendation.html',records=result)
+    records = []
+    for book in bookIDs:
+        result = books.find_one({'book_id':book},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
+                            'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
+        if result:
+            records.append(result)
+    return render_template('recommendation.html',records=records)
 
     
 
@@ -56,11 +65,11 @@ def makeList(self, results,attribute='Neighbor'):
     return results_as_list  
 
 
-def getBookSuggesstions():
+def getBookSuggesstions(firstbook):
     results_as_list_neighbor = []
     results_as_list_Sim =[]
     session = driver.session()
-    query = "MATCH (b1:Book{bookId:965})-[s:SIMILARITY]-(b2:Book) "\
+    query = "MATCH (b1:Book{bookId:$firstbook})-[s:SIMILARITY]-(b2:Book) "\
             "WITH b2, s.similarity AS sim "\
             "ORDER BY sim DESC "\
             "LIMIT 5 "\
@@ -77,3 +86,8 @@ def getBookSuggesstions():
 
 if __name__ == "__main__":
     app.run(debug=True)
+
+
+
+
+        # <!-- <input id="recom" type="button" onclick="window.location.href='http://localhost:5000/recommend/{{records}}';" value="YOU MAY ALSO LIKE..."> -->
