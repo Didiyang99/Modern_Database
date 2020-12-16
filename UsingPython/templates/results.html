@@ -51,7 +51,9 @@ input{
    <form class="buttns" action="http://localhost:5000/">
     <input id="button" type="submit" value="SEARCH BOOKS">
     </form>
-    <input id="recom" type="button" onclick="window.location.href='http://localhost:5000/recommend';" value="YOU MAY ALSO LIKE...">
+    <form class="buttns" action="http://localhost:5000/recommend/{{ records[0].book_id }}">
+        <input id="button" type="submit" value="YOU MAY ALSO LIKE...">
+    </form>
 
 <div class="divver">
     {% for record in records %}
