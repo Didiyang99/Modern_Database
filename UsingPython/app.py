@@ -72,6 +72,7 @@ def getBookSuggesstions():
         print(str(record['Neighbor'])+"      "+ str(record['Similarity']))
     print(results_as_list_neighbor)
     print(results_as_list_Sim) 
+    return results_as_list_neighbor
 
 
 if __name__ == "__main__":
