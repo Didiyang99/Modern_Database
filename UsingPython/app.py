@@ -20,11 +20,12 @@ def index():
 def search():
     query = request.args.get('query')
     result = books.find_one({'original_title':query}) 
-    if result:
+    if result and len(query) is not 0:
         resultSet = {'Title':result['original_title'], 'Author':result['authors'], 'Ratings_Count':result['ratings_count'], 'Published':int(result['original_publication_year']), 'Image':result['small_image_url'],
-                     'Avg_Rating':result['average_rating'], 'ISBN':result['isbn']}
-        print(resultSet)
+                    'Avg_Rating':result['average_rating'], 'ISBN':result['isbn']}
         return render_template("results.html",resultSet=resultSet)
+    else:
+        return render_template('index.html',invalid="Book Does Not Exist")
     # return redirect(url_for('results',query=query))
     
 
@@ -39,4 +40,4 @@ def search():
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
