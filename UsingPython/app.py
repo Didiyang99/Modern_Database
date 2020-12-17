@@ -9,7 +9,7 @@ db = client['finalProjectDb']
 books = db.Books  
 
 #Neo4j Client
-driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "moderndb"))
+driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "Elhadi123"))
 
 app = Flask(__name__)
 
