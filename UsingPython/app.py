@@ -9,7 +9,7 @@ db = client['finalProjectDb']
 books = db.Books  
 
 #Neo4j Client
-driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "Elhadi123"))
+driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "moderndb"))
 
 app = Flask(__name__)
 
@@ -53,6 +53,7 @@ def recommend(firstBook):
                             'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
         if result:
             records.append(result)
+    print("records", records)
     return render_template('recommendation.html',records=records)
 
     
