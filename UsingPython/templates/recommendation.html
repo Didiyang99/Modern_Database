@@ -5,11 +5,12 @@
     <link rel="stylesheet" href="style.css">
     <title>ModernDB Final Project</title>
     <style>
-        h1 {
+       #title {
     border: 2px #eee solid;
     color: white;
-    text-align: center;
     padding: 10px;
+    display:flex;
+    background-color: black;
 }
 form{
     margin-top: 2%;
@@ -40,43 +41,57 @@ input{
     display: inline-block;
 }
 .buttns{
-    margin-left: 40%;
+    margin-top: 1.5%;
+    margin-left: 5%;
+}
+#headerTitle{
+    margin-left: 28%;
+}
+#error{
+    text-align: center;
+    color: yellow;
+    font-size: 3.0em;
+    margin-top: 15%;
 }
 
     </style>
 </head>
 <body>
 
-   <h1>You May Also Like These Books</h1>
+    <div id="title">
+        <h1 id="headerTitle">Books Similar To <em>{{ bookname }}</em></h1>
+        <form class="buttns" action="http://localhost:5000/">
+         <input type="submit" value="SEARCH BOOKS">
+         </form>
+         </div>
 
-   <form class="buttns" action="http://localhost:5000/">
-    <input id="button" type="submit" value="SEARCH BOOKS">
-    </form>
 
 <div class="divver">
-    {% for record in records %}
+    {%if status=="success"%}
+        {% for record in records %}
 
-    <p><h2>{{ record.original_title }}</h2>
-        <ul>
-            <img src="{{record.small_image_url}}" alt="">
+        <p><h2>{{ record.original_title }}</h2>
+            <ul>
+                <img src="{{record.small_image_url}}" alt="">
 
-            <li><h3>Book ID: {{ record.id }}</h3></li>
-            <li><h3>Author(s): {{ record.authors }}</h3></li>
-            <li><h3>Year Published: {{ record.original_publication_year  }}</h3></li>
-            <li><h3>Number of Ratings: {{ record.ratings_count }}</h3></li>
-            <li><h3>Average Rating: {{ record.average_rating }}</h3></li>
-            <li><h3>International Standard Book Number (ISBN): {{ record.isbn }}</h3></li>
-        </ul>
-    </p>
-    <hr>
-    {% endfor %}
+                <li><h3>Book ID: {{ record.id }}</h3></li>
+                <li><h3>Author(s): {{ record.authors }}</h3></li>
+                <li><h3>Year Published: {{ record.original_publication_year  }}</h3></li>
+                <li><h3>Number of Ratings: {{ record.ratings_count }}</h3></li>
+                <li><h3>Average Rating: {{ record.average_rating }}</h3></li>
+                <li><h3>International Standard Book Number (ISBN): {{ record.isbn }}</h3></li>
+            </ul>
+        </p>
+        <hr>
+        {% endfor %}
+    {%else%}
+        <h2 id="error"><em>BOOK ID OUT OF RANGE!</em></h2>
+
+    {% endif %}
+
 
 </div>
 
-
-<form class="buttns" action="http://localhost:5000/">
-    <input type="submit" value="SEARCH BOOKS">
-</form>
 </body>
 
 

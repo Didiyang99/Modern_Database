@@ -50,6 +50,12 @@ def search():
 #Recommendation
 @app.route("/recommend/<int:firstBook>",methods=['GET'])
 def recommend(firstBook):
+    status = "fail"
+    get_query_book = books.find_one({'id':firstBook},{'original_title':1, '_id':0})
+    bookname = "failed_request"
+    if get_query_book:
+        bookname = get_query_book['original_title']
+
     bookIDs = getBookSuggesstions(firstBook)
     records = []
     for book in bookIDs:
@@ -57,8 +63,10 @@ def recommend(firstBook):
                             'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
         if result:
             records.append(result)
-    print("records", records)
-    return render_template('recommendation.html',records=records)
+    if records:
+        status = "success"
+    
+    return render_template('recommendation.html',records=records,bookname=bookname,status=status)
 
 
 # Uses neo4j to obtain similarity between the first book returned in the search route. Uses cosine simialrity.

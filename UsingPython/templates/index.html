@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <title>ModernDB Final Project</title>
     <style>
-        h1 {
+        #title {
     border: 2px #eee solid;
     color: white;
-    text-align: center;
     padding: 10px;
+    display:flex;
+    background-color: black;
 }
 form{
     margin-top: 5%;
@@ -29,11 +30,18 @@ h3{
     margin-top: 10%;
     font-size: 2.0em;
 }
+#headerTitle{
+    margin-left: 28%;
+}
+
     </style>
 </head>
 <body>
-   <h1>Book Search and Recommendation System</h1>
-</body>
+
+   <div id="title">
+    <h1 id="headerTitle">Book Search and Recommendation System</h1>
+     </div>
+
 
 <form class="example" action="http://localhost:5000/search" method="GET">
     <input type="text" placeholder="Search..." name="query">
@@ -46,5 +54,5 @@ h3{
     {%endif%}
 
 </div>
-
+</body>
 </html>
