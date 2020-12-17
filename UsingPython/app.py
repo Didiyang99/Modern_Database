@@ -38,7 +38,7 @@ def search():
                             'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0}):
         
         #If this is the same object we inserted in line 34, do not insert again.
-        if result['book_id'] != resultOne['book_id']:
+        if result:
             records.append(result)
 
     if records:
