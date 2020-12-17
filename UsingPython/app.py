@@ -14,7 +14,8 @@ books = db.Books
 Set up Neo4j Client usingn Neo4j Driver 
 Connect it to localhost:7687 as default database
 """
-driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "moderndb"))
+#driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "moderndb"))
+driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "Elhadi123"))
 
 app = Flask(__name__)
 
