@@ -97,7 +97,7 @@ def getBookSuggesstions(firstbook):
     return results_as_list_neighbor
 
 
-
+#match string to format in databse
 def capString(s):    
     no_caps_list = ["and","to","of","is"]
     lst = s.split()   
