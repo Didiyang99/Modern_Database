@@ -20,14 +20,13 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-#search route to search books in db
+#Search route to search books in db
 @app.route("/search",methods=['GET'])
 def search():
     query = request.args.get('query')
     records = []
     query = capString(query)
     print(query)
-
     resultOne = books.find_one({"original_title": query},{'original_title':1,'book_id':1, 'id':1, 'authors':1,'original_publication_year':1,
                            'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
     #insert most matching input
@@ -52,11 +51,6 @@ def search():
 @app.route("/recommend/<int:firstBook>",methods=['GET'])
 def recommend(firstBook):
     bookIDs = getBookSuggesstions(firstBook)
-    # result = books.find_one({'id':598},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
-    #                          'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
-    # print(result)
-    
-    # return render_template('recommendation.html',records=result)
     records = []
     for book in bookIDs:
         result = books.find_one({'id':book},{'original_title':1,'book_id':1,'id':1, 'authors':1,'original_publication_year':1,
@@ -66,18 +60,8 @@ def recommend(firstBook):
     print("records", records)
     return render_template('recommendation.html',records=records)
 
-    
 
-# Make a list of Neo4j results
-def makeList(self, results,attribute='Neighbor'):
-    results_as_list = []
-    if results.peek():            
-        listResult = list(results)
-        for record in listResult:
-            results_as_list.append(record[attribute])
-    return results_as_list  
-
-#Uses neo4j to obtain similarity between the first book returned in the search route. Uses cosine simialrity.
+# Uses neo4j to obtain similarity between the first book returned in the search route. Uses cosine simialrity.
 def getBookSuggesstions(firstbook):
     results_as_list_neighbor = []
     results_as_list_Sim =[]
