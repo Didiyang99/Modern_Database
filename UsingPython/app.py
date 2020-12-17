@@ -5,7 +5,7 @@ from neo4j import GraphDatabase
 
 #Mongo Client
 client = MongoClient('localhost',27017)
-db = client['finalProjectDB']
+db = client['finalProjectDb']
 books = db.Books  
 
 #Neo4j Client
@@ -41,16 +41,22 @@ def search():
 #Recommendation
 @app.route("/recommend/<int:firstBook>",methods=['GET'])
 def recommend(firstBook):
+    print('firstbook', firstBook)
     bookIDs = getBookSuggesstions(firstBook)
-    # result = books.find_one({'book_id':900},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
-    #                          'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
+    # result = books.find_one({'book_id':100},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
+    #                         'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
+    # print("100 result", result)
     # return render_template('recommendation.html',records=result)
     records = []
     for book in bookIDs:
-        result = books.find_one({'book_id':book},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
+        print(type(book))
+        print(book)
+        result = books.find_one({'id':book},{'original_title':1,'book_id':1,'authors':1,'original_publication_year':1,
                             'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
+        print("result", result)
         if result:
             records.append(result)
+    print("bookID", bookIDs)
     return render_template('recommendation.html',records=records)
 
     
@@ -73,7 +79,7 @@ def getBookSuggesstions(firstbook):
     result = session.run("MATCH (b1:Book{bookId:$firstbook})-[s:SIMILARITY]-(b2:Book) "\
             "WITH b2, s.similarity AS sim "\
             "ORDER BY sim DESC "\
-            "LIMIT 5 "\
+            "LIMIT 10 "\
             "RETURN b2.bookId AS Neighbor, sim AS Similarity",firstbook=firstbook)
     for record in list(result):
         results_as_list_neighbor.append(record['Neighbor'])
