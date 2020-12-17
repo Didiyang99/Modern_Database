@@ -51,7 +51,7 @@ input{
    <form class="buttns" action="http://localhost:5000/">
     <input id="button" type="submit" value="SEARCH BOOKS">
     </form>
-    <form  action="http://localhost:5000/recommend/{{ records[0].book_id }}">
+    <form  action="http://localhost:5000/recommend/{{ records[0].id }}">
         <input id="button" type="submit" value="YOU MAY ALSO LIKE...">
     </form>
 
@@ -61,7 +61,7 @@ input{
         <ul>
             <img src="{{record.small_image_url}}" alt="">
 
-            <li><h3>Book ID: {{ record.book_id }}</h3></li>
+            <li><h3>Book ID: {{ record.id }}</h3></li>
             <li><h3>Author(s): {{ record.authors }}</h3></li>
             <li><h3>Year Published: {{ record.original_publication_year  }}</h3></li>
             <li><h3>Number of Ratings: {{ record.ratings_count }}</h3></li>
@@ -76,7 +76,7 @@ input{
 <form class="buttns" action="http://localhost:5000/">
     <input type="submit" value="SEARCH BOOKS">
 </form>
-<form  action="http://localhost:5000/recommend/{{ records[0].book_id }}">
+<form  action="http://localhost:5000/recommend/{{ records[0].id }}">
     <input id="button" type="submit" value="YOU MAY ALSO LIKE...">
 </form>
 </body>
