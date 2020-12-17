@@ -54,6 +54,8 @@ input{
     </form>
 
 <div class="divver">
+    {% for record in records %}
+
     <p><h2>{{ records.original_title }}</h2>
         <ul>
             <img src="{{records.small_image_url}}" alt="">
@@ -67,6 +69,8 @@ input{
         </ul>
     </p>
     <hr>
+    {% endfor %}
+
 </div>
 
 
