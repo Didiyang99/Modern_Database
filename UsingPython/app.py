@@ -102,6 +102,10 @@ def capString(s):
     no_caps_list = []
     if s.split()[0] == "to":
         no_caps_list = ["and","of","is","a", "an"]
+    elif s.split()[0] == "a":
+        no_caps_list = ["and","of","is", "an"]
+    elif s.split()[0] == "an":
+        no_caps_list = ["and","of","is", "a"]
     else:
         no_caps_list = ["and","to","of","is", "a","an"]
     lst = s.split()   
