@@ -99,7 +99,11 @@ def getBookSuggesstions(firstbook):
 
 #match string to format in databse
 def capString(s):    
-    no_caps_list = ["and","to","of","is"]
+    no_caps_list = []
+    if s.split()[0] == "to":
+        no_caps_list = ["and","of","is","a", "an"]
+    else:
+        no_caps_list = ["and","to","of","is", "a","an"]
     lst = s.split()   
     res = ''     
     for word in lst:
