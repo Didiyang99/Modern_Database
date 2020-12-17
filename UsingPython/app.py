@@ -42,16 +42,18 @@ def search():
 @app.route("/recommend/<int:firstBook>",methods=['GET'])
 def recommend(firstBook):
     bookIDs = getBookSuggesstions(firstBook)
-    result = books.find_one({'book_id':900},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
-                             'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
-    return render_template('recommendation.html',records=result)
-    # records = []
-    # for book in bookIDs:
-    #     result = books.find_one({'book_id':book},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
-    #                         'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
-    #     if result:
-    #         records.append(result)
-    # return render_template('recommendation.html',records=records)
+    # result = books.find_one({'id':598},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
+    #                          'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
+    # print(result)
+    
+    # return render_template('recommendation.html',records=result)
+    records = []
+    for book in bookIDs:
+        result = books.find_one({'book_id':book},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
+                            'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
+        if result:
+            records.append(result)
+    return render_template('recommendation.html',records=records)
 
     
 
@@ -69,12 +71,12 @@ def getBookSuggesstions(firstbook):
     results_as_list_neighbor = []
     results_as_list_Sim =[]
     session = driver.session()
-    query = "MATCH (b1:Book{bookId:$firstbook})-[s:SIMILARITY]-(b2:Book) "\
+    print('firstbook', firstbook)
+    result = session.run("MATCH (b1:Book{bookId:$firstbook})-[s:SIMILARITY]-(b2:Book) "\
             "WITH b2, s.similarity AS sim "\
             "ORDER BY sim DESC "\
             "LIMIT 5 "\
-            "RETURN b2.bookId AS Neighbor, sim AS Similarity"
-    result = session.run(query)
+            "RETURN b2.bookId AS Neighbor, sim AS Similarity",firstbook=firstbook)
     for record in list(result):
         results_as_list_neighbor.append(record['Neighbor'])
         results_as_list_Sim.append(record['Similarity'])
@@ -89,5 +91,20 @@ if __name__ == "__main__":
 
 
 
+# <div class="divver">
+#     {% for record in records %}
+#     <p><h2>{{ record.original_title }}</h2>
+#         <ul>
+#             <img src="{{record.small_image_url}}" alt="">
 
-        # <!-- <input id="recom" type="button" onclick="window.location.href='http://localhost:5000/recommend/{{records}}';" value="YOU MAY ALSO LIKE..."> -->
+#             <li><h3>Book ID: {{ record.book_id }}</h3></li>
+#             <li><h3>Author(s): {{ record.authors }}</h3></li>
+#             <li><h3>Year Published: {{ record.original_publication_year  }}</h3></li>
+#             <li><h3>Number of Ratings: {{ record.ratings_count }}</h3></li>
+#             <li><h3>Average Rating: {{ record.average_rating }}</h3></li>
+#             <li><h3>International Standard Book Number (ISBN): {{ record.isbn }}</h3></li>
+#         </ul>
+#     </p>
+#     <hr>
+#     {% endfor %}
+# </div>
