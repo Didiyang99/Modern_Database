@@ -9,7 +9,7 @@ db = client['finalProjectDb']
 books = db.Books  
 
 #Neo4j Client
-driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "moderndb"))
+driver = GraphDatabase.driver("bolt://localhost:7687", auth=("neo4j", "Elhadi123"))
 
 app = Flask(__name__)
 
@@ -25,17 +25,20 @@ def index():
 def search():
     query = request.args.get('query')
     records = []
-    query = query.title()
+    query = capString(query)
     print(query)
 
     resultOne = books.find_one({"original_title": query},{'original_title':1,'book_id':1, 'id':1, 'authors':1,'original_publication_year':1,
-                            'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
+                           'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
+    #insert most matching input
     if resultOne:
         records.append(resultOne)
 
     for result in books.find({"$text": {"$search" : query}},{'original_title':1,'book_id':1,'id':1,'authors':1,'original_publication_year':1,
                             'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0}):
-        if result['book_id'] != resultOne['book_id']:
+        
+        #If this is the same object we inserted in line 34, do not insert again.
+        if result:
             records.append(result)
 
     if records:
@@ -92,6 +95,18 @@ def getBookSuggesstions(firstbook):
     print(results_as_list_neighbor)
     print(results_as_list_Sim) 
     return results_as_list_neighbor
+
+
+#match string to format in databse
+def capString(s):    
+    no_caps_list = ["and","to","of","is"]
+    lst = s.split()   
+    res = ''     
+    for word in lst:
+        if word not in no_caps_list:
+            word = word.capitalize()
+        res = res + ' '+ word
+    return res.strip()
 
 
 if __name__ == "__main__":
