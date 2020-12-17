@@ -20,16 +20,23 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
-
+#search route to search books in db
 @app.route("/search",methods=['GET'])
 def search():
     query = request.args.get('query')
     records = []
-    resultOne = books.find_one({"$text": {"$search" : '\"query\"'}},{'original_title':1,'book_id':1, 'authors':1,'original_publication_year':1,
+    query = query.title()
+    print(query)
+
+    resultOne = books.find_one({"original_title": query},{'original_title':1,'book_id':1, 'id':1, 'authors':1,'original_publication_year':1,
                             'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0})
-    for result in books.find({"$text": {"$search" : query}},{'original_title':1,'book_id':1,'authors':1,'original_publication_year':1,
+    if resultOne:
+        records.append(resultOne)
+
+    for result in books.find({"$text": {"$search" : query}},{'original_title':1,'book_id':1,'id':1,'authors':1,'original_publication_year':1,
                             'small_image_url':1, 'average_rating':1,'isbn':1, 'ratings_count':1, '_id':0}):
-        records.append(result)
+        if result['book_id'] != resultOne['book_id']:
+            records.append(result)
 
     if records:
         return render_template("results.html",records=records, query=query)
@@ -66,7 +73,7 @@ def makeList(self, results,attribute='Neighbor'):
             results_as_list.append(record[attribute])
     return results_as_list  
 
-
+#Uses neo4j to obtain similarity between the first book returned in the search route. Uses cosine simialrity.
 def getBookSuggesstions(firstbook):
     results_as_list_neighbor = []
     results_as_list_Sim =[]
@@ -89,22 +96,3 @@ def getBookSuggesstions(firstbook):
 if __name__ == "__main__":
     app.run(debug=True)
 
-
-
-# <div class="divver">
-#     {% for record in records %}
-#     <p><h2>{{ record.original_title }}</h2>
-#         <ul>
-#             <img src="{{record.small_image_url}}" alt="">
-
-#             <li><h3>Book ID: {{ record.book_id }}</h3></li>
-#             <li><h3>Author(s): {{ record.authors }}</h3></li>
-#             <li><h3>Year Published: {{ record.original_publication_year  }}</h3></li>
-#             <li><h3>Number of Ratings: {{ record.ratings_count }}</h3></li>
-#             <li><h3>Average Rating: {{ record.average_rating }}</h3></li>
-#             <li><h3>International Standard Book Number (ISBN): {{ record.isbn }}</h3></li>
-#         </ul>
-#     </p>
-#     <hr>
-#     {% endfor %}
-# </div>
